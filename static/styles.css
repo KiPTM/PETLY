@@ -1,0 +1,35 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #007BFF;
+    color: white;
+    padding: 1rem;
+}
+
+nav a {
+    margin: 0 15px;
+    text-decoration: none;
+    color: white;
+}
+
+.pet-card {
+    border: 1px solid #ccc;
+    padding: 1rem;
+    margin: 1rem;
+    background-color: white;
+    width: 80%;
+    max-width: 400px;
+    display: inline-block;
+}
+
+@media (max-width: 600px) {
+    .pet-card {
+        width: 90%;
+    }
+}
