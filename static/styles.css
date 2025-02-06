@@ -6,25 +6,32 @@
 }
 
 /* Body Styling */
+/* Body Styling */
 body {
     font-family: Arial, sans-serif;
     line-height: 1.6;
     color: #333;
     background-color: #f4f4f4;
+    margin: 0;
+    padding-top: 6rem; /* Add padding equal to the header's height */
 }
 
 /* Header Styling */
+/* Header Styling */
 .header {
-    background-color: #144779; /* Blue background for the header */
+    background-color: #142793dc; /* Blue background for the header */
     color: white;
     padding: 1rem 0;
     text-align: center;
-    position: relative; /* Ensure the header doesn't overlap other sections */
-    z-index: 10; /* Keep the header above other elements */
+    position: fixed; /* Fix the header at the top */
+    top: 0; /* Stick the header to the top */
+    width: 100%; /* Ensure the header spans the full width */
+    z-index: 1000; /* Ensure the header stays above other elements */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Add a subtle shadow for depth */
 }
 
 .container {
-    max-width: 1200px;
+    max-width: 12000px;
     margin: 0 auto;
     padding: 0 20px;
 }
@@ -37,7 +44,7 @@ body {
 }
 
 .nav-link {
-    color: rgb(98, 162, 7);
+    color: white;
     text-decoration: none;
     font-size: 1rem;
     transition: color 0.3s ease;
@@ -52,9 +59,9 @@ body {
     background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://via.placeholder.com/1920x600') no-repeat center center/cover;
     color: white;
     text-align: center;
-    padding: 5rem 0; /* Adjust padding as needed */
+    padding: 2rem 0; /* Adjust padding as needed */
     margin-bottom: 2rem; /* Add spacing below the hero section */
-    min-height: 400px; /* Set a fixed minimum height for the hero section */
+    min-height: 50px; /* Set a fixed minimum height for the hero section */
 }
 
 .hero h2 {
@@ -82,39 +89,75 @@ body {
     background-color: #0056b3;
 }
 
+
+/* Features Section */
 /* Features Section */
 .features {
     background-color: white;
-    padding: 3rem 0;
+    padding: 4rem 0;
     text-align: center;
 }
 
 .feature {
+    background-color: #f9f9f9;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
     margin-bottom: 2rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.feature:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
 }
 
 .feature h3 {
-    font-size: 1.5rem;
+    font-size: 1.75rem;
+    color: #007BFF;
     margin-bottom: 0.5rem;
+    font-weight: bold;
 }
 
 .feature p {
     font-size: 1rem;
     color: #666;
+    line-height: 1.5;
 }
 
 /* Responsive Design */
 @media (min-width: 768px) {
     .features {
-        display: flex;
-        justify-content: space-between;
+        display: flex; /* Use Flexbox for layout */
+        justify-content: flex-start; /* Align items from the left */
+        gap: 2rem; /* Space between features */
+        flex-wrap: wrap; /* Allow wrapping if needed */
     }
 
     .feature {
-        flex: 1;
-        max-width: 30%;
+        flex: 1; /* Allow features to grow/shrink */
+        max-width: 300px; /* Limit width for better alignment */
+        margin-right: 2rem; /* Add space between features */
+    }
+
+    .feature:last-child {
+        margin-right: 0; /* Remove right margin for the last feature */
     }
 }
+
+/* Optional: Add Icons for Each Feature */
+.feature:nth-child(1) {
+    border-left: 5px solid #007BFF; /* Blue border for "Easy to Use" */
+}
+
+.feature:nth-child(2) {
+    border-left: 5px solid #28a745; /* Green border for "Secure Transactions" */
+}
+
+.feature:nth-child(3) {
+    border-left: 5px solid #ffc107; /* Yellow border for "Community Driven" */
+}
+
 
 /* Footer Styling */
 .footer {
