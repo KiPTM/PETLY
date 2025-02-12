@@ -3,22 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Browse Pets</title>
+    <title>Browse Pets - PetNest</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-    <header>
-        <h1>Pet Listings</h1>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <h1 class="logo">PetNest</h1>
+            <nav class="nav">
+                <a href="/" class="nav-link">Home</a>
+                {% if current_user.is_authenticated %}
+                    <a href="/profile" class="nav-link">My Profile</a>
+                    <a href="/logout" class="nav-link">Logout</a>
+                {% else %}
+                    <a href="/register" class="nav-link">Register</a>
+                    <a href="/login" class="nav-link">Login</a>
+                {% endif %}
+                <a href="/contact" class="nav-link">Contact Us</a>
+            </nav>
+        </div>
     </header>
-    <main>
-        {% for pet in pets %}
+
+    <!-- Browse Pets Section -->
+    <section class="browse-pets">
+        <div class="container">
+            <h2>Pet Listings</h2>
+            {% for pet in pets %}
             <div class="pet-card">
-                <h2>{{ pet.name }}</h2>
-                <p>Breed: {{ pet.breed }}</p>
-                <p>Price: ${{ pet.price }}</p>
-                <p>{{ pet.description }}</p>
+                {% if pet.image_url %}  <!-- Check if an image exists -->
+                <img src="{{ pet.image_url }}" alt="{{ pet.name }} Picture" class="pet-image">
+                {% else %}
+                <p>No image available for this pet.</p>
+                {% endif %}
+                <h3>{{ pet.name }}</h3>
+                <p><strong>Breed:</strong> {{ pet.breed }}</p>
+                <p><strong>Price:</strong> ${{ pet.price }}</p>
+                <p><strong>Location:</strong> {{ pet.location }}</p>
+                <p><strong>Description:</strong> {{ pet.description }}</p>
+                <p><strong>Seller:</strong> {{ pet.owner.username }}</p>
+                {% if pet.owner == current_user %}
+                <form action="{{ url_for('delete_pet', pet_id=pet.id) }}" method="POST" style="display:inline;">
+                    <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure?')">Delete</button>
+                </form>
+                <a href="{{ url_for('edit_pet', pet_id=pet.id) }}" class="btn btn-secondary">Edit</a>
+                {% endif %}
             </div>
-        {% endfor %}
-    </main>
+            {% endfor %}
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 PetNest. All rights reserved.</p>
+        </div>
+    </footer>
 </body>
 </html>

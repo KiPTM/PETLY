@@ -3,22 +3,112 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sell a Pet</title>
+    <title>Sell a Pet - PetNest</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-    <header>
-        <h1>Sell a Pet</h1>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <h1 class="logo">PetNest</h1>
+            <nav class="nav">
+                <a href="/" class="nav-link">Home</a>
+                {% if current_user.is_authenticated %}
+                    <a href="/profile" class="nav-link">My Profile</a>
+                    <a href="/logout" class="nav-link">Logout</a>
+                {% else %}
+                    <a href="/register" class="nav-link">Register</a>
+                    <a href="/login" class="nav-link">Login</a>
+                {% endif %}
+                <a href="/contact" class="nav-link">Contact Us</a>
+            </nav>
+        </div>
     </header>
-    <main>
-        <form method="post">
-            {{ form.hidden_tag() }}
-            <p>{{ form.name.label }}<br>{{ form.name(size=32) }}</p>
-            <p>{{ form.breed.label }}<br>{{ form.breed(size=32) }}</p>
-            <p>{{ form.price.label }}<br>{{ form.price(size=32) }}</p>
-            <p>{{ form.description.label }}<br>{{ form.description(cols=32, rows=5) }}</p>
-            <p>{{ form.submit() }}</p>
-        </form>
-    </main>
+
+    <!-- Sell Pet Section -->
+    <section class="sell-pet">
+        <div class="container">
+            <h2>Sell a Pet</h2>
+            <form method="POST" enctype="multipart/form-data">
+                {{ form.hidden_tag() }}
+                <div>
+                    {{ form.name.label }}<br>
+                    {{ form.name(size=32) }}
+                    {% if form.name.errors %}
+                        <ul class="errors">
+                            {% for error in form.name.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+                <div>
+                    {{ form.breed.label }}<br>
+                    {{ form.breed(size=32) }}
+                    {% if form.breed.errors %}
+                        <ul class="errors">
+                            {% for error in form.breed.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+                <div>
+                    {{ form.price.label }}<br>  <!-- Ensure this field is included -->
+                    {{ form.price(size=32) }}
+                    {% if form.price.errors %}
+                        <ul class="errors">
+                            {% for error in form.price.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+                <div>
+                    {{ form.location.label }}<br>
+                    {{ form.location(size=32) }}
+                    {% if form.location.errors %}
+                        <ul class="errors">
+                            {% for error in form.location.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+                <div>
+                    {{ form.description.label }}<br>
+                    {{ form.description(cols=50, rows=5) }}
+                    {% if form.description.errors %}
+                        <ul class="errors">
+                            {% for error in form.description.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+                <div>
+                    {{ form.image_url.label }}<br>
+                    {{ form.image_url() }}
+                    {% if form.image_url.errors %}
+                        <ul class="errors">
+                            {% for error in form.image_url.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+                <div>
+                    {{ form.submit() }}
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 PetNest. All rights reserved.</p>
+        </div>
+    </footer>
 </body>
 </html>

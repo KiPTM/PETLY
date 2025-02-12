@@ -1,10 +1,52 @@
 /* General Reset */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+/* General Content Section Styling */
+section {
+    margin-top: 2rem; /* Add space between sections */
+    padding: 2rem; /* Add internal padding */
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    margin: 0 auto; /* Center the section horizontally */
 }
 
+/* Register and Login Forms */
+.register, .login {
+    margin-top: 8rem; /* Add extra space for fixed header */
+    text-align: center;
+}
+
+form div {
+    margin-bottom: 1rem;
+}
+
+form label {
+    font-weight: bold;
+}
+
+form input, form textarea {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+form button {
+    background-color: #007BFF;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+form button:hover {
+    background-color: #0056b3;
+}
+
+/* Body Styling */
 /* Body Styling */
 body {
     font-family: Arial, sans-serif;
@@ -15,6 +57,7 @@ body {
     padding-top: 6rem; /* Add padding equal to the header's height */
 }
 
+/* Header Styling */
 /* Header Styling */
 .header {
     background-color: #0955a7; /* Blue background for the header */
@@ -269,4 +312,20 @@ section {
     background-color: #f8d7da;
     color: #721c24;
     border: 1px solid #f5c6cb;
+}
+
+.pet-card {
+    background-color: white;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.pet-image {
+    width: 150px;
+    height: auto;
+    border-radius: 10px;
+    margin-bottom: 0.5rem;
 }

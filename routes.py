@@ -3,7 +3,10 @@ from app import app, db, login_manager
 from models import User, Pet
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, logout_user, current_user, login_required
-from forms import PetForm, RegistrationForm, LoginForm
+from forms import RegistrationForm, LoginForm, PetForm, ProfileForm
+from werkzeug.utils import secure_filename
+import os
+
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -58,17 +61,26 @@ def logout():
 def sell_pet():
     form = PetForm()
     if form.validate_on_submit():
+        filename = None
+        if form.image_url.data:  # Handle image upload
+            filename = secure_filename(form.image_url.data.filename)
+            filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            form.image_url.data.save(filepath)
+
         new_pet = Pet(
             name=form.name.data,
             breed=form.breed.data,
             price=form.price.data,
+            location=form.location.data,
             description=form.description.data,
+            image_url=f'/static/profile_pictures/{filename}' if filename else None,  # Save image URL
             user_id=current_user.id
         )
         db.session.add(new_pet)
         db.session.commit()
         flash('Pet listed successfully!', 'success')
         return redirect(url_for('browse_pets'))
+
     return render_template('sell.html', form=form)
 
 @app.route('/browse')
@@ -99,19 +111,19 @@ def contact():
     return render_template('contact.html')
 
 @app.route('/pet/<int:pet_id>')
-def pet_detail(pet_id):
-    pet = Pet.query.get_or_404(pet_id)  # Return 404 if the pet doesn't exist
+def view_pet(pet_id):  # Renamed function to avoid conflict
+    pet = Pet.query.get_or_404(pet_id)
     return render_template('pet_detail.html', pet=pet)
 
 @app.route('/edit_pet/<int:pet_id>', methods=['GET', 'POST'])
 @login_required
-def edit_pet(pet_id):
+def edit_pet(pet_id):  # Renamed function
     pet = Pet.query.get_or_404(pet_id)
-    if pet.owner != current_user:  # Ensure only the owner can edit the pet
+    if pet.owner != current_user:
         flash('You do not have permission to edit this pet listing.', 'danger')
         return redirect(url_for('home'))
-    
-    form = PetForm(obj=pet)  # Pre-fill the form with existing data
+
+    form = PetForm(obj=pet)
     if form.validate_on_submit():
         pet.name = form.name.data
         pet.breed = form.breed.data
@@ -119,18 +131,18 @@ def edit_pet(pet_id):
         pet.description = form.description.data
         db.session.commit()
         flash('Pet listing updated successfully!', 'success')
-        return redirect(url_for('pet_detail', pet_id=pet.id))
-    
+        return redirect(url_for('view_pet', pet_id=pet.id))  # Use the correct endpoint
+
     return render_template('edit_pet.html', form=form, pet=pet)
 
 @app.route('/delete_pet/<int:pet_id>', methods=['POST'])
 @login_required
-def delete_pet(pet_id):
+def delete_pet(pet_id):  # Ensure this function name is unique
     pet = Pet.query.get_or_404(pet_id)
-    if pet.owner != current_user:  # Ensure only the owner can delete the pet
+    if pet.owner != current_user:
         flash('You do not have permission to delete this pet listing.', 'danger')
         return redirect(url_for('home'))
-    
+
     db.session.delete(pet)
     db.session.commit()
     flash('Pet listing deleted successfully!', 'success')
@@ -145,3 +157,23 @@ def view_users():
 @app.route('/about')
 def about():
     return render_template('about.html', title='About PetNest')
+
+@app.route('/profile', methods=['GET', 'POST'])
+@login_required  # Ensure only logged-in users can access this page
+def profile():
+    form = ProfileForm()
+    if form.validate_on_submit():
+        if form.profile_picture.data:
+            filename = secure_filename(form.profile_picture.data.filename)
+            filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            form.profile_picture.data.save(filepath)
+            current_user.profile_picture = f'/static/profile_pictures/{filename}'
+
+        current_user.bio = form.bio.data
+        db.session.commit()
+        flash('Your profile has been updated!', 'success')
+        return redirect(url_for('profile'))
+
+    # Pre-fill the form with existing data
+    form.bio.data = current_user.bio
+    return render_template('profile.html', form=form, user=current_user)
