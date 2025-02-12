@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Users - PetNest</title>
+    <title>Pet Detail - PetNest</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
@@ -24,25 +24,10 @@
     </header>
 
     <main>
-        <h2>Registered Users</h2>
-        <table border="1" style="width: 100%; text-align: center;">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Username</th>
-                    <th>Email</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for user in users %}
-                <tr>
-                    <td>{{ user.id }}</td>
-                    <td>{{ user.username }}</td>
-                    <td>{{ user.email }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+        <h2>{{ pet.name }}</h2>
+        <p><strong>Breed:</strong> {{ pet.breed }}</p>
+        <p><strong>Price:</strong> ${{ pet.price }}</p>
+        <p><strong>Description:</strong> {{ pet.description }}</p>
     </main>
 </body>
 </html>

@@ -2,23 +2,85 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register</title>
+    <meta name="viewport" content="width=device-width, initial-scale=0.5">
+    <title>Register - PetNest</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-    <header>
-        <h1>Register</h1>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <h1 class="logo">PetNest</h1>
+            <nav class="nav">
+                <a href="/" class="nav-link">Home</a>
+                <a href="/login" class="nav-link">Login</a>
+                <a href="/contact" class="nav-link">Contact Us</a>
+            </nav>
+        </div>
     </header>
-    <main>
-        <form method="post">
-            {{ form.hidden_tag() }}
-            <p>{{ form.username.label }}<br>{{ form.username(size=32) }}</p>
-            <p>{{ form.email.label }}<br>{{ form.email(size=32) }}</p>
-            <p>{{ form.password.label }}<br>{{ form.password(size=32) }}</p>
-            <p>{{ form.confirm_password.label }}<br>{{ form.confirm_password(size=32) }}</p>
-            <p>{{ form.submit() }}</p>
-        </form>
-    </main>
+
+    <!-- Register Section -->
+    <section class="register">
+        <div class="container">
+            <h2>Register</h2>
+            <form method="POST">
+                {{ form.hidden_tag() }}
+                <div>
+                    {{ form.username.label }}<br>
+                    {{ form.username(size=32) }}
+                    {% if form.username.errors %}
+                        <ul class="errors">
+                            {% for error in form.username.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+                <div>
+                    {{ form.email.label }}<br>
+                    {{ form.email(size=32) }}
+                    {% if form.email.errors %}
+                        <ul class="errors">
+                            {% for error in form.email.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+                <div>
+                    {{ form.password.label }}<br>
+                    {{ form.password(size=32) }}
+                    {% if form.password.errors %}
+                        <ul class="errors">
+                            {% for error in form.password.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+                <div>
+                    {{ form.confirm_password.label }}<br>
+                    {{ form.confirm_password(size=32) }}
+                    {% if form.confirm_password.errors %}
+                        <ul class="errors">
+                            {% for error in form.confirm_password.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+                <div>
+                    {{ form.submit() }}
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 PetNest. All rights reserved.</p>
+        </div>
+    </footer>
 </body>
 </html>

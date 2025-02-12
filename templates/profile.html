@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - PetNest</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <h1 class="logo">PetNest</h1>
+            <nav class="nav">
+                <a href="/" class="nav-link">Home</a>
+                {% if current_user.is_authenticated %}
+                    <a href="/sell" class="nav-link">Sell a Pet</a>
+                    <a href="/browse" class="nav-link">Browse Pets</a>
+                    <a href="/logout" class="nav-link">Logout</a>
+                {% else %}
+                    <a href="/register" class="nav-link">Register</a>
+                    <a href="/login" class="nav-link">Login</a>
+                {% endif %}
+                <a href="/contact" class="nav-link">Contact Us</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Profile Section -->
+    <section class="profile">
+        <div class="container">
+            <h2>{{ user.username }}'s Profile</h2>
+            {% if user.profile_picture %}
+                <img src="{{ user.profile_picture }}" alt="Profile Picture" class="profile-picture">
+            {% else %}
+                <p>No profile picture uploaded yet.</p>
+            {% endif %}
+
+            <form method="POST" enctype="multipart/form-data">
+                {{ form.hidden_tag() }}
+                <div>
+                    {{ form.profile_picture.label }}<br>
+                    {{ form.profile_picture() }}
+                    {% if form.profile_picture.errors %}
+                        <ul class="errors">
+                            {% for error in form.profile_picture.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+                <div>
+                    {{ form.bio.label }}<br>
+                    {{ form.bio(cols=50, rows=5) }}
+                    {% if form.bio.errors %}
+                        <ul class="errors">
+                            {% for error in form.bio.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+                <div>
+                    {{ form.submit() }}
+                </div>
+            </form>
+
+            {% if user.bio %}
+                <p><strong>Bio:</strong> {{ user.bio }}</p>
+            {% else %}
+                <p>No bio added yet.</p>
+            {% endif %}
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 PetNest. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}PetNest{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="flash-message {{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <!-- Header Section -->
+    <header class="header">
+        <div class="container">
+            <h1 class="logo">PetNest</h1>
+            <nav class="nav">
+                <a href="/" class="nav-link">Home</a>
+                {% if current_user.is_authenticated %}
+                    <a href="/sell" class="nav-link">Sell a Pet</a>
+                    <a href="/browse" class="nav-link">Browse Pets</a>
+                    <a href="/profile" class="nav-link">My Profile</a>
+                    <a href="/logout" class="nav-link">Logout</a>
+                {% else %}
+                    <a href="/register" class="nav-link">Register</a>
+                    <a href="/login" class="nav-link">Login</a>
+                {% endif %}
+                <a href="/contact" class="nav-link">Contact Us</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer Section -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 PetNest. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

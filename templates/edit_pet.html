@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Users - PetNest</title>
+    <title>Edit Pet - PetNest</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
@@ -24,25 +24,29 @@
     </header>
 
     <main>
-        <h2>Registered Users</h2>
-        <table border="1" style="width: 100%; text-align: center;">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Username</th>
-                    <th>Email</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for user in users %}
-                <tr>
-                    <td>{{ user.id }}</td>
-                    <td>{{ user.username }}</td>
-                    <td>{{ user.email }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+        <h2>Edit Pet Listing</h2>
+        <form method="POST">
+            {{ form.hidden_tag() }}
+            <div>
+                {{ form.name.label }}<br>
+                {{ form.name(size=32) }}
+            </div>
+            <div>
+                {{ form.breed.label }}<br>
+                {{ form.breed(size=32) }}
+            </div>
+            <div>
+                {{ form.price.label }}<br>
+                {{ form.price(size=32) }}
+            </div>
+            <div>
+                {{ form.description.label }}<br>
+                {{ form.description(cols=32, rows=5) }}
+            </div>
+            <div>
+                {{ form.submit() }}
+            </div>
+        </form>
     </main>
 </body>
 </html>
